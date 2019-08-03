@@ -1,12 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <title>HTML Joke of the Day</title>
+    <script src="{% static "joke_app/js/jquery-3.4.1.min.js" %}"></script>
+    <script>
+        var Request = false;
+
+        if(window.XMLHttpRequest){
+            Request = new XMLHttpRequest();
+        } else if (window.ActiveXObject) {
+            Request = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        function retrieveJoke(url, elementID){
+            var RequestObj = document.getElementById(elementID);
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                success: function (data) {
+                    RequestObj.innerHTML = data.punchline;
+                }
+
+            });
+
+        }
+    </script>
 </head>
 <body>
     <h1>Where do bees go when they get married?</h1>
-    <a href="joke.txt">Fetch Answer</a>
+    <form>
+        <input type="button" value="Fetch Answer" onclick="retrieveJoke('{% url 'joke_app:return_punchline' %}', 'DivTarget')">
+    </form>>
+
+    <div id="DivTarget"> </div>
 
 </body>
 </html>
