@@ -1,4 +1,5 @@
 from django.shortcuts import render
 
+
 def index(request):
-    pass
+    return render(request=request, template_name="joke_app/index.html")
